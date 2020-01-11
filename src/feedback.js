@@ -23,13 +23,21 @@ const Feedback = () => {
 
   // event handler
 
-  const handleChange = () => {
-    console.log("change");
+  const handleChange = taregtName => event => {
+    // targetNameがinputのonChangeで選んでいる要素のこと
+    // input nameをchangeすると[name]が取れて、それがsetValuesによって新しく書き換わっている
+    console.log(taregtName, "taregtName");
+
+    setValues({...values, [taregtName]: event.target.value });
+    console.table({ name, email, phone, message, uploadedFiles });
   };
 
   // functions
-  const handleSubmit = () => {
+  const handleSubmit = event => {
+    event.preventDefault();
     console.log("submit");
+    setValues({ ...values, buttonText: "...送信中" });
+    // send to backend for Email
   };
 
   // fc components
@@ -39,7 +47,7 @@ const Feedback = () => {
         <div className="form-group">
           <label className="text-muted">詳細</label>
           <textarea
-            onChange={handleChange}
+            onChange={handleChange("message")}
             type="text"
             className="form-control"
             value={message}
@@ -49,7 +57,7 @@ const Feedback = () => {
         <div className="from-group">
           <label className="text-muted">名前</label>
           <input
-          className="form-control"
+            className="form-control"
             type="text"
             onChange={handleChange("name")}
             value={name}
@@ -59,7 +67,7 @@ const Feedback = () => {
         <div className="from-group">
           <label className="text-muted">Eメール</label>
           <input
-          className="form-control"
+            className="form-control"
             type="text"
             onChange={handleChange("email")}
             value={email}
@@ -69,7 +77,7 @@ const Feedback = () => {
         <div className="from-group">
           <label className="text-muted">電話番号</label>
           <input
-          className="form-control"
+            className="form-control"
             type="number"
             onChange={handleChange("phone")}
             value={phone}
