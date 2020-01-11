@@ -1,9 +1,9 @@
 import React from 'react';
-
+import Feedback from './feedback';
 const App = () => {
   return (
     <div className='p-5'>
-     <p>react app</p>
+      <Feedback/>
     </div>
   )
 }
