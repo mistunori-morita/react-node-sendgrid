@@ -8,7 +8,7 @@ const Feedback = () => {
     phone: "",
     uploadedFiles: [],
     buttonText: "送信",
-    uploadPhotosButtonText: "Upload files"
+    uploadPhotosButtonText: "アップロード"
   });
 
   const {
@@ -20,6 +20,13 @@ const Feedback = () => {
     buttonText,
     uploadPhotosButtonText
   } = values;
+
+  // destructure env variables
+  const {
+    REACT_APP_API,
+    REACT_APP_CLOUDINARY_CLOUD_NAME,
+    REACT_APP_CLOUDINARY_UPLOAD_SECRET
+  } = process.env;
 
   // event handler
 
@@ -40,9 +47,28 @@ const Feedback = () => {
     // send to backend for Email
   };
 
+  const uploadWidget = () => {
+    window.cloudinary.openUploadWidget(
+      {
+        cloud_name: REACT_APP_CLOUDINARY_CLOUD_NAME,
+        upload_preset: REACT_APP_CLOUDINARY_UPLOAD_SECRET,
+        tags: ["photos"]
+      },
+      function(error, result) {
+        console.log(result);
+        setValues({ ...values, uploadedFiles: result, uploadPhotosButtonText: `${result ? result.length: 0} 写真アップロード完了`})
+      }
+    );
+  }
+
   // fc components
   const feedbackForm = () => (
     <>
+      <div className="form-group pt-5">
+        <button onClick={uploadWidget} className="btn btn-outline-secondary btn-block p-5">
+          {uploadPhotosButtonText}
+        </button>
+      </div>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label className="text-muted">詳細</label>
@@ -85,7 +111,7 @@ const Feedback = () => {
           />
         </div>
 
-        <button className="btn btn-outline-primary btn-block">
+        <button className="btn btn-outline-primary btn-block mt-5 p-5">
           {buttonText}
         </button>
       </form>
