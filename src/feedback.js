@@ -28,7 +28,7 @@ const Feedback = () => {
     // input nameをchangeすると[name]が取れて、それがsetValuesによって新しく書き換わっている
     console.log(taregtName, "taregtName");
 
-    setValues({...values, [taregtName]: event.target.value });
+    setValues({ ...values, [taregtName]: event.target.value });
     console.table({ name, email, phone, message, uploadedFiles });
   };
 
@@ -84,6 +84,7 @@ const Feedback = () => {
             required
           />
         </div>
+
         <button className="btn btn-outline-primary btn-block">
           {buttonText}
         </button>
