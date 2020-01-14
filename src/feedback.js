@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import axios from 'axios';
+
 
 const Feedback = () => {
   const [values, setValues] = useState({
@@ -36,7 +38,6 @@ const Feedback = () => {
     console.log(taregtName, "taregtName");
 
     setValues({ ...values, [taregtName]: event.target.value });
-    console.table({ name, email, phone, message, uploadedFiles });
   };
 
   // functions
@@ -45,6 +46,18 @@ const Feedback = () => {
     console.log("submit");
     setValues({ ...values, buttonText: "...送信中" });
     // send to backend for Email
+
+    axios({
+      method: "POST",
+      url: `${REACT_APP_API}/feedback`,
+      data: { name, email, phone, message, uploadedFiles }
+    })
+      .then(response => {
+        console.log("feedback submit response", response);
+      })
+      .catch(error => {
+        console.log("feedback submit error", error.response);
+      });
   };
 
   const uploadWidget = () => {
